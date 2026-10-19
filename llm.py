@@ -1,16 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""技能进化反思器客户端（对齐 EmbodiSkill 的 skill_model 角色）。
 
-反思 / 技能修订 / 重构全部由该 LLM 完成。执行器（Qwen VLM）只负责答题。
-两种后端（C.SKILL_LLM_BACKEND）：
-- "vllm"     本地常驻 vLLM（OpenAI 兼容），默认，无需 API key（Qwen3-8B 反思器）。
-- "deepseek" DeepSeek 云 API（需 DEEPSEEK_API_KEY）。
-接口：
-- chat(system, user): 单轮对话，返回文本。
-- chat_json(system, user): 期望返回 JSON，内置去 code-fence + 容错解析 + 重试。
-- parallel_map(items, fn): 窗口内反思并发（库冻结时安全）。
-"""
 import json
 import os
 import re
