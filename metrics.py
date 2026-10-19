@@ -1,18 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""评估指标：正式三指标体系。
 
-结果轴   acc            ：准确率（overall + CvSI 五类分项）
-效率轴   avg_gen_tokens ：Reasoning Efficiency，每题平均生成 token 数（总体 + 逐类），
-                          供 Accuracy–Cost Pareto 图使用（x=平均输出 token，y=acc）
-偏差轴   pos_bias       ：Option Position Bias，两种形式并报：
-                          ① pos_bias_jsd    预测选项字母分布 vs 金标选项字母分布的
-                             Jensen–Shannon 散度（越低越无位置捷径）
-                          ② pos_acc_range   逐金标位置条件准确率极差
-                             max_p acc|p − min_p acc|p（越低越公平）
-两轴均只依赖模型自身输出与选项字母，不接触任何过程/金标推理信息。
-（op_coverage / answer_rate 已撤出正式指标体系。）
-"""
 import math
 from collections import defaultdict
 
