@@ -1,29 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-auto_policy.py —— 可复现的二维路由 policy 自动搜索 / 诚实评估工具。
 
-核心事实（本脚本用于证明与量化）：
-  人工 "routed" policy 本质是【在 full val 上逐类别 argmax 的 oracle】——它是拟合在
-  测试集上的上界，而非 held-out 结果。因此任何用 held-out 探针做的搜索都无法"超过"它，
-  只能在统计功效足够时"逼近"它。
-
-本工具在【4 格 × full val 的逐题预测矩阵】上完成三件事（纯离线、可复现）：
-  1) oracle   : 逐类别 argmax(full val) → 确定性复现人工 policy（上界，需诚实标注）。
-  2) cv       : 分层 K 折交叉验证 → policy 选择流程的【诚实 held-out 估计】（可部署汇报值）。
-  3) sweep    : 探针规模敏感性 → 每类需要多少样本，argmax 才稳定逼近 oracle。
-
-4 个单元格（cell）及其对应的 ×5 评测目录：
-  base         = no_skill + direct   -> runs/val9b_ns_r*
-  cot          = no_skill + cot      -> runs/val9b_cot_r*
-  skill_direct = skill    + direct   -> runs/val9b_final_r*
-  skill_cot    = skill    + cot      -> runs/val9b_skillcot_r*   （用 skillevo.run_eval --mode skill 补齐）
-
-守卫：
-  - default 固定为 base；探针不足或改进不足时均回退到无手册、直答基线。
-  - margin  : 非默认格须高出默认格 >= margin 才切换。
-  - min_n   : 该类别用于选择的样本 < min_n 时退回默认格。
-"""
 import argparse
 import glob
 import json
