@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""技能手册 Manual（自然语言 manual，忠实移植 EmbodiSkill 的 manual_state 结构）。
 
-state schema:
-  {
-    "version": int,
-    "sections": [{"title": <one of SECTION_TITLES>, "items": [str, ...]}, ...],
-    "execution_notes": [{"target_section": str, "target_skill": str, "note": str}, ...],
-    "updated_at_utc": iso8601,
-  }
-
-冷启动 = 空 manual（四板块空 items，无执行提醒），技能完全由 LLM 反思从零积累。
-- render_text(): 渲染整册（sections + notes）供注入执行器。
-- prompt_lines(): 逐条注入行。
-- skill_to_section(): item 文本 -> 板块标题（反思 target 校验用）。
-- 规范化：只保留合法板块标题、去重、执行提醒必须绑定到现存 item。
-"""
 import copy
 import json
 import os
